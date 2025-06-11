@@ -1,6 +1,7 @@
 import { Routes } from '@angular/router';
 import { Home } from './home/home';
 import { App } from './app';
+import { Places } from './places/places';
 
 export const routes: Routes = [
     {
@@ -13,7 +14,7 @@ export const routes: Routes = [
         component: App
     },
     {
-        path : '**',
-        redirectTo: 'app'
+        path : 'places',
+        component: Places
     }
 ];
