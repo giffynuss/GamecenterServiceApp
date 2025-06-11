@@ -16,5 +16,9 @@ export const routes: Routes = [
     {
         path : 'places',
         component: Places
+    },
+    {
+        path : '**',
+        redirectTo: 'app'
     }
 ];
