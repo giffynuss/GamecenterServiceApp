@@ -1,24 +1,25 @@
-import { Routes } from '@angular/router';
+import { RouterModule, Routes } from '@angular/router';
 import { Home } from './home/home';
 import { App } from './app';
 import { Places } from './places/places';
+import { PlaceDetails } from './place-details/place-details';
 
 export const routes: Routes = [
     {
         path : '',
-        redirectTo: 'app',
+        redirectTo: 'home',
         pathMatch: 'full'
     },
     {
-        path : 'app',
-        component: App
+        path : 'home',
+        component: Home
     },
     {
         path : 'places',
         component: Places
     },
     {
-        path : '**',
-        redirectTo: 'app'
+        path : 'place-details/:id',
+        component: PlaceDetails
     }
 ];
