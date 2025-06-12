@@ -5,7 +5,7 @@
     --electric-violet: oklch(73.24% 0.185 314.47);
     --french-violet: oklch(73.24% 0.271 327.18);
     --vivid-pink: oklch(77.65% 0.229 131.29);
-    --hot-red: oklch(77.65% 0.229 131.29);
+    --hot-red: oklch(92.06% 0.222 111.18);
     --orange-red: oklch(66.18% 0.281 2.12);
 
     --gray-900: oklch(19.37% 0.006 300.98);
@@ -130,10 +130,14 @@
   .pill-group .pill:nth-child(6n + 2) {
     --pill-accent: var(--french-violet);
   }
-  .pill-group .pill:nth-child(6n + 3),
-  .pill-group .pill:nth-child(6n + 4),
-  .pill-group .pill:nth-child(6n + 5) {
+  .pill-group .pill:nth-child(6n + 3) {
     --pill-accent: var(--hot-red);
+  }
+  .pill-group .pill:nth-child(6n + 4) {
+    --pill-accent: var(--vivid-pink);
+  }
+  .pill-group .pill:nth-child(6n + 5) {
+    --pill-accent: var(--electric-violet);
   }
 
   .pill-group svg {
@@ -239,7 +243,7 @@
           <a
             class="pill"
             [href]="item.link"
-            target="_blank"
+            target="_self"
             rel="noopener"
           >
             <span>{{ item.title }}</span>

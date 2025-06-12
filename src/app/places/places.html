@@ -1,12 +1,85 @@
+<div class="places-container">
+  <div class="places-header">
+    <h2 class="places-title">🎮 Wähle deinen Gaming-Platz</h2>
+    <p class="places-subtitle">Klicke auf einen freien Platz, um ihn zu reservieren</p>
+  </div>
 
+  <!-- Preisklassen Information -->
+  <div class="price-classes-info">
+    <h3 class="price-classes-title">💰 Unsere Preisklassen</h3>
+    <div class="price-classes-grid">
+      <div 
+        *ngFor="let priceClass of priceClasses" 
+        class="price-class-card"
+        [style.border-left-color]="priceClass.color">
+        <div class="price-class-header">
+          <h4 class="price-class-name">{{ priceClass.name }}</h4>
+          <span class="price-class-price">{{ formatPrice(priceClass.price) }}</span>
+        </div>
+        <p class="price-class-description">{{ priceClass.description }}</p>
+        <div class="price-class-location">📍 {{ priceClass.rows }}</div>
+      </div>
+    </div>
+  </div>
 
-<div class="room-grid">
-      <button
-        *ngFor="let place of places; let i = index"
-        (click)="toggleOccupation(place)"
-        [ngClass]="{'occupied': place.occupation, 'free': !place.occupation}"
-        [title]="'Platz ' + place.id + (place.occupation ? ' (belegt)' : ' (frei)')">
-        🎮 {{ place.id }}
-      </button>
-      <a [routerLink]="['/place-details', place?.id]">Test Link</a>
+  <div class="places-grid">
+    <div 
+      *ngFor="let place of places; let i = index"
+      class="place-card"
+      [ngClass]="{
+        'occupied': place.occupation, 
+        'free': !place.occupation,
+        'not-selectable': !isPlaceSelectable(place)
+      }"
+      [class]="getPriceClassCssClass(place.id)"
+      (click)="selectPlace(place)"
+      [attr.data-place-id]="place.id"
+      [title]="place.occupation ? 'Platz ' + place.id + ' ist belegt' : 'Platz ' + place.id + ' - ' + formatPrice(place.price)">
+      
+      <div class="place-icon">
+        <span class="gaming-icon">🎮</span>
+      </div>
+      
+      <div class="place-info">
+        <div class="place-number">{{ place.id }}</div>
+        <div class="place-price">{{ formatPrice(place.price) }}</div>
+        <div class="place-status">
+          {{ place.occupation ? 'Belegt' : 'Frei' }}
+        </div>
+      </div>
+      
+      <div class="place-indicator" [ngClass]="place.occupation ? 'indicator-occupied' : 'indicator-free'">
+        <div class="pulse-dot"></div>
+      </div>
+
+      <!-- Blockierte Plätze Overlay -->
+      <div *ngIf="place.occupation" class="occupied-overlay">
+        <span class="lock-icon">🔒</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="places-legend">
+    <div class="legend-item">
+      <div class="legend-dot free-dot"></div>
+      <span>Verfügbar</span>
+    </div>
+    <div class="legend-item">
+      <div class="legend-dot occupied-dot"></div>
+      <span>Belegt</span>
+    </div>
+    <div class="legend-separator"></div>
+    <div class="legend-item">
+      <div class="legend-dot low-cost-dot"></div>
+      <span>Budget ({{ formatPrice(priceClasses[0]?.price || 0) }})</span>
+    </div>
+    <div class="legend-item">
+      <div class="legend-dot mid-class-dot"></div>
+      <span>Premium ({{ formatPrice(priceClasses[1]?.price || 0) }})</span>
+    </div>
+    <div class="legend-item">
+      <div class="legend-dot high-end-dot"></div>
+      <span>Elite ({{ formatPrice(priceClasses[2]?.price || 0) }})</span>
+    </div>
+  </div>
 </div>
