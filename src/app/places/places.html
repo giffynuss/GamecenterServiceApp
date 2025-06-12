@@ -1,6 +1,12 @@
-<p>places works!</p>
-@for (place of places; track $index) {
-  <button>
-    {{place.id}}
+
+
+<div class="room-grid">
+  <button
+    *ngFor="let place of places; let i = index"
+    (click)="toggleOccupation(place)"
+    [ngClass]="{'occupied': place.occupation, 'free': !place.occupation}"
+    [title]="'Platz ' + place.id + (place.occupation ? ' (belegt)' : ' (frei)')"
+  >
+    🎮 {{ place.id }}
   </button>
-}
+</div>

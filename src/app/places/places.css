@@ -1,0 +1,36 @@
+.room-grid {
+  display: grid;
+  grid-template-columns: repeat(5, 60px);
+  gap: 12px;
+  justify-content: center;
+  margin-top: 15px;
+}
+
+.room-grid button {
+  width: 60px;
+  height: 60px;
+  font-size: 20px;
+  font-weight: 700;
+  border-radius: 10px;
+  border: none;
+  cursor: pointer;
+  color: white;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  box-shadow: 0 3px 6px rgba(0,0,0,0.2);
+}
+
+.room-grid button.free {
+  background-color: #4CAF50; /* grün */
+}
+
+.room-grid button.occupied {
+  background-color: #E53935; /* rot */
+}
+
+.room-grid button:hover {
+  transform: scale(1.15);
+  box-shadow: 0 6px 12px rgba(0,0,0,0.3);
+}
