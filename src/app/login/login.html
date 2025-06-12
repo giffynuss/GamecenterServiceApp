@@ -1,1 +1,115 @@
-<p>login works!</p>
+<div class="login-container">
+    <div class="login-card">
+      <div class="login-header">
+        <div class="gaming-logo">
+          <span class="controller-icon">🎮</span>
+          <h1 class="login-title">GameCenter Login</h1>
+        </div>
+        <p class="login-subtitle">Melde dich an, um dein Gaming-Erlebnis zu starten</p>
+      </div>
+  
+      <form class="login-form" (ngSubmit)="onLogin()" #loginForm="ngForm">
+        <div class="form-group">
+          <label for="email" class="form-label">
+            <span class="label-icon">👤</span>
+            E-Mail oder Benutzername
+          </label>
+          <input 
+            type="text" 
+            id="email" 
+            name="email"
+            class="form-input"
+            [(ngModel)]="loginData.email"
+            required
+            placeholder="Gib deine E-Mail oder deinen Benutzernamen ein"
+            [class.error]="showError && !loginData.email"
+            autocomplete="username">
+        </div>
+  
+        <div class="form-group">
+          <label for="password" class="form-label">
+            <span class="label-icon">🔒</span>
+            Passwort
+          </label>
+          <div class="password-input-container">
+            <input 
+              [type]="showPassword ? 'text' : 'password'" 
+              id="password" 
+              name="password"
+              class="form-input"
+              [(ngModel)]="loginData.password"
+              required
+              placeholder="Gib dein Passwort ein"
+              [class.error]="showError && !loginData.password"
+              autocomplete="current-password">
+            <button 
+              type="button" 
+              class="password-toggle"
+              (click)="togglePasswordVisibility()"
+              [attr.aria-label]="showPassword ? 'Passwort verbergen' : 'Passwort anzeigen'">
+              {{ showPassword ? '👁️' : '👁️‍🗨️' }}
+            </button>
+          </div>
+        </div>
+  
+        <div class="form-options">
+          <label class="checkbox-container">
+            <input 
+              type="checkbox" 
+              name="rememberMe"
+              [(ngModel)]="loginData.rememberMe">
+            <span class="checkmark"></span>
+            Angemeldet bleiben
+          </label>
+          <a href="#" class="forgot-password">Passwort vergessen?</a>
+        </div>
+  
+        <div class="form-actions">
+          <button 
+            type="submit" 
+            class="login-button"
+            [disabled]="isLoading"
+            [class.loading]="isLoading">
+            <span *ngIf="!isLoading" class="button-content">
+              <span class="button-icon">🚀</span>
+              Anmelden
+            </span>
+            <span *ngIf="isLoading" class="loading-spinner"></span>
+          </button>
+        </div>
+  
+        <div *ngIf="errorMessage" class="error-message">
+          <span class="error-icon">⚠️</span>
+          {{ errorMessage }}
+        </div>
+      </form>
+  
+      <div class="login-footer">
+        <div class="divider">
+          <span class="divider-text">oder</span>
+        </div>
+        
+        <div class="social-login">
+          <button type="button" class="social-button steam" (click)="loginWithSteam()">
+            <span class="social-icon">🎮</span>
+            Mit Steam anmelden
+          </button>
+          <button type="button" class="social-button discord" (click)="loginWithDiscord()">
+            <span class="social-icon">💬</span>
+            Mit Discord anmelden
+          </button>
+        </div>
+  
+        <div class="signup-link">
+          Noch kein Konto? 
+          <a href="#" class="signup-button">Jetzt registrieren</a>
+        </div>
+      </div>
+    </div>
+  
+    <div class="login-background">
+      <div class="bg-element bg-1"></div>
+      <div class="bg-element bg-2"></div>
+      <div class="bg-element bg-3"></div>
+    </div>
+  </div>
