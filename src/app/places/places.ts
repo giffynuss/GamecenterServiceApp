@@ -1,5 +1,6 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { Place } from '../place';
+import { Placeservice } from '../placeservice';
 
 @Component({
   selector: 'app-places',
@@ -8,6 +9,12 @@ import { Place } from '../place';
   styleUrl: './places.css'
 })
 export class Places {
-places: any;
+
+  places: Place[] = [];
+  personService: Placeservice = inject(Placeservice);
+
+  constructor() {
+    this.places = this.personService.getPlaces();
+  }
 
 }

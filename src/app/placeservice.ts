@@ -1,14 +1,12 @@
-import { Component } from '@angular/core';
-import { Place } from '../place';
+import { Injectable } from '@angular/core';
+import { Place } from './place';
 
-@Component({
-  selector: 'app-placeservice',
-  imports: [],
-  templateUrl: './placeservice.html',
-  styleUrl: './placeservice.css'
+@Injectable({
+  providedIn: 'root'
 })
 export class Placeservice {
-  places: Place [] = [];
+
+    places: Place [] = [];
   
     constructor() {
       this.places = [
