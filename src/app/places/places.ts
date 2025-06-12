@@ -2,10 +2,11 @@ import { Component, inject } from '@angular/core';
 import { Place } from '../place';
 import { Placeservice } from '../placeservice';
 import { CommonModule } from '@angular/common';
+import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-places',
-  imports: [CommonModule],
+  imports: [CommonModule, RouterLink],
   templateUrl: './places.html',
   styleUrl: './places.css'
 })

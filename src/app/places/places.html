@@ -1,12 +1,12 @@
 
 
 <div class="room-grid">
-  <button
-    *ngFor="let place of places; let i = index"
-    (click)="toggleOccupation(place)"
-    [ngClass]="{'occupied': place.occupation, 'free': !place.occupation}"
-    [title]="'Platz ' + place.id + (place.occupation ? ' (belegt)' : ' (frei)')"
-  >
-    🎮 {{ place.id }}
-  </button>
+      <button
+        *ngFor="let place of places; let i = index"
+        (click)="toggleOccupation(place)"
+        [ngClass]="{'occupied': place.occupation, 'free': !place.occupation}"
+        [title]="'Platz ' + place.id + (place.occupation ? ' (belegt)' : ' (frei)')">
+        🎮 {{ place.id }}
+      </button>
+      <a [routerLink]="['/place-details', place?.id]">Test Link</a>
 </div>
