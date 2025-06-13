@@ -1,0 +1,50 @@
+{
+  "seats": [
+    { "id": 1, "price": 2.50, "occupation": false },
+    { "id": 2, "price": 2.50, "occupation": true },
+    { "id": 3, "price": 2.50, "occupation": false },
+    { "id": 4, "price": 2.50, "occupation": false },
+    { "id": 5, "price": 2.50, "occupation": false },
+
+    { "id": 6, "price": 2.50, "occupation": false },
+    { "id": 7, "price": 2.50, "occupation": false },
+    { "id": 8, "price": 2.50, "occupation": true },
+    { "id": 9, "price": 2.50, "occupation": false },
+    { "id": 10, "price": 2.50, "occupation": false },
+
+    { "id": 11, "price": 2.50, "occupation": false },
+    { "id": 12, "price": 2.50, "occupation": false },
+    { "id": 13, "price": 2.50, "occupation": false },
+    { "id": 14, "price": 2.50, "occupation": false },
+    { "id": 15, "price": 2.50, "occupation": true },
+
+    { "id": 16, "price": 4.00, "occupation": false },
+    { "id": 17, "price": 4.00, "occupation": false },
+    { "id": 18, "price": 4.00, "occupation": false },
+    { "id": 19, "price": 4.00, "occupation": false },
+    { "id": 20, "price": 4.00, "occupation": false },
+    { "id": 21, "price": 4.00, "occupation": false },
+    { "id": 22, "price": 4.00, "occupation": true },
+    { "id": 23, "price": 4.00, "occupation": false },
+    { "id": 24, "price": 4.00, "occupation": false },
+    { "id": 25, "price": 4.00, "occupation": false },
+
+    { "id": 26, "price": 6.50, "occupation": false },
+    { "id": 27, "price": 6.50, "occupation": false },
+    { "id": 28, "price": 6.50, "occupation": true },
+    { "id": 29, "price": 6.50, "occupation": false },
+    { "id": 30, "price": 6.50, "occupation": false },
+
+    { "id": 31, "price": 6.50, "occupation": false },
+    { "id": 32, "price": 6.50, "occupation": false },
+    { "id": 33, "price": 6.50, "occupation": false },
+    { "id": 34, "price": 6.50, "occupation": false },
+    { "id": 35, "price": 6.50, "occupation": true },
+
+    { "id": 36, "price": 6.50, "occupation": false },
+    { "id": 37, "price": 6.50, "occupation": false },
+    { "id": 38, "price": 6.50, "occupation": false },
+    { "id": 39, "price": 6.50, "occupation": false },
+    { "id": 40, "price": 6.50, "occupation": false }
+  ]
+}
