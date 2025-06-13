@@ -1,0 +1,519 @@
+.booking-container {
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 20px;
+  min-height: 100vh;
+  background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+}
+
+.main-card {
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+  border-radius: 16px;
+  overflow: hidden;
+}
+
+.booking-header {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  padding: 24px;
+  margin-bottom: 0;
+}
+
+.booking-header .mat-card-title {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-size: 28px;
+  margin-bottom: 8px;
+}
+
+.booking-header .mat-card-subtitle {
+  font-size: 16px;
+  opacity: 0.9;
+}
+
+/* Progress Indicator */
+.progress-container {
+  padding: 24px;
+  background: #fafafa;
+  border-bottom: 1px solid #e0e0e0;
+}
+
+.progress-bar {
+  height: 6px;
+  background: #e0e0e0;
+  border-radius: 3px;
+  overflow: hidden;
+  margin-bottom: 16px;
+}
+
+.progress-fill {
+  height: 100%;
+  background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
+  transition: width 0.3s ease;
+  border-radius: 3px;
+}
+
+.step-indicators {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.step-indicator {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: #e0e0e0;
+  color: #666;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 500;
+  transition: all 0.3s ease;
+}
+
+.step-indicator.active {
+  background: #667eea;
+  color: white;
+}
+
+.step-indicator.current {
+  background: #764ba2;
+  color: white;
+  transform: scale(1.1);
+  box-shadow: 0 4px 12px rgba(118, 75, 162, 0.3);
+}
+
+/* Step Content */
+.step-content {
+  padding: 32px;
+  min-height: 500px;
+}
+
+.step-content h2 {
+  margin-bottom: 24px;
+  color: #333;
+  font-size: 24px;
+  font-weight: 500;
+}
+
+.step-content h3 {
+  margin-bottom: 16px;
+  color: #555;
+  font-size: 18px;
+  font-weight: 500;
+}
+
+/* Phase 1: Place Details */
+.place-info-card {
+  margin-bottom: 24px;
+  border: 2px solid #e3f2fd;
+  background: linear-gradient(135deg, #e3f2fd 0%, #f3e5f5 100%);
+}
+
+.place-details {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+}
+
+.place-icon {
+  font-size: 64px;
+  background: white;
+  padding: 16px;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.place-info h3 {
+  margin-bottom: 16px;
+  font-size: 24px;
+  color: #333;
+}
+
+.place-specs {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 12px;
+}
+
+.spec-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 12px;
+  background: rgba(255, 255, 255, 0.7);
+  border-radius: 8px;
+  font-size: 14px;
+}
+
+.spec-item mat-icon {
+  color: #667eea;
+  font-size: 18px;
+}
+
+.time-selection {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 16px;
+  margin-bottom: 24px;
+}
+
+.booking-summary {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 16px;
+  background: #f5f5f5;
+  border-radius: 8px;
+  margin-top: 16px;
+}
+
+.duration-info, .price-info {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-weight: 500;
+}
+
+.price-info {
+  color: #4caf50;
+  font-size: 18px;
+}
+
+/* Phase 2: PC Specs */
+.specs-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 24px;
+}
+
+.ram-slider {
+  grid-column: 1 / -1;
+  padding: 16px;
+  background: #fafafa;
+  border-radius: 8px;
+  border: 1px solid #e0e0e0;
+}
+
+.ram-slider label {
+  display: block;
+  margin-bottom: 16px;
+  font-weight: 500;
+  color: #555;
+}
+
+/* Phase 3: Games */
+.games-filter {
+  display: flex;
+  gap: 16px;
+  margin-bottom: 24px;
+}
+
+.search-field {
+  flex: 2;
+}
+
+.category-field {
+  flex: 1;
+}
+
+.selected-games {
+  margin-bottom: 24px;
+  padding: 16px;
+  background: #e8f5e8;
+  border-radius: 8px;
+  border: 2px solid #4caf50;
+}
+
+.selected-games h3 {
+  color: #2e7d32;
+  margin-bottom: 12px;
+}
+
+.selected-games-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.games-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 16px;
+}
+
+.game-card {
+  cursor: pointer;
+  transition: all 0.3s ease;
+  border: 2px solid transparent;
+  position: relative;
+  background: white;
+}
+
+.game-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+  border-color: #667eea;
+}
+
+.game-card.selected {
+  border-color: #4caf50;
+  background: #e8f5e8;
+}
+
+.game-card mat-card-content {
+  text-align: center;
+  padding: 16px !important;
+}
+
+.game-icon {
+  font-size: 48px;
+  margin-bottom: 12px;
+}
+
+.game-name {
+  font-weight: 500;
+  margin-bottom: 4px;
+  color: #333;
+}
+
+.game-category {
+  font-size: 12px;
+  color: #666;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.selected-icon {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  color: #4caf50;
+  background: white;
+  border-radius: 50%;
+  padding: 4px;
+}
+
+/* Phase 4: Personal Data */
+.personal-form-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 24px;
+  margin-bottom: 24px;
+}
+
+.birth-date-row {
+  display: flex;
+  gap: 16px;
+  grid-column: 1 / -1;
+}
+
+.birth-date-row mat-form-field {
+  flex: 1;
+}
+
+mat-radio-group {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  margin-top: 16px;
+}
+
+mat-radio-button {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 16px;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  transition: all 0.3s ease;
+}
+
+mat-radio-button:hover {
+  background: #f5f5f5;
+  border-color: #667eea;
+}
+
+mat-radio-button.mat-mdc-radio-checked {
+  background: #e3f2fd;
+  border-color: #667eea;
+}
+
+/* Phase 5: Summary */
+.summary-sections {
+  display: grid;
+  gap: 24px;
+  margin-bottom: 24px;
+}
+
+.summary-card {
+  border: 1px solid #e0e0e0;
+}
+
+.summary-card mat-card-header {
+  background: #fafafa;
+  padding: 16px 24px;
+  margin: 0;
+}
+
+.summary-card mat-card-title {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 18px;
+  color: #333;
+}
+
+.summary-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px 0;
+  border-bottom: 1px solid #f0f0f0;
+}
+
+.summary-item:last-child {
+  border-bottom: none;
+}
+
+.games-summary .mat-mdc-chip-listbox {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.billing-card {
+  background: linear-gradient(135deg, #fff3e0 0%, #f3e5f5 100%);
+  border: 2px solid #ff9800;
+}
+
+.billing-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 0;
+  font-size: 16px;
+}
+
+.discount-section {
+  margin: 16px 0;
+}
+
+.total-price {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 16px 0;
+  font-size: 20px;
+  color: #333;
+}
+
+/* Navigation */
+.navigation-buttons {
+  display: flex;
+  align-items: center;
+  padding: 24px 32px;
+  background: #fafafa;
+  border-top: 1px solid #e0e0e0;
+}
+
+.spacer {
+  flex: 1;
+}
+
+.navigation-buttons button {
+  min-width: 120px;
+  height: 48px;
+  font-size: 16px;
+  font-weight: 500;
+}
+
+.navigation-buttons button mat-icon {
+  margin: 0 4px;
+}
+
+/* Form Fields */
+mat-form-field {
+  width: 100%;
+}
+
+mat-form-field.mat-form-field-appearance-outline .mat-form-field-outline {
+  border-radius: 8px;
+}
+
+/* Material Overrides */
+.mat-mdc-card {
+  border-radius: 12px;
+}
+
+.mat-mdc-button, .mat-mdc-raised-button {
+  border-radius: 8px;
+}
+
+.mat-mdc-chip {
+  border-radius: 16px;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .booking-container {
+    padding: 10px;
+  }
+  
+  .step-content {
+    padding: 16px;
+  }
+  
+  .time-selection {
+    grid-template-columns: 1fr;
+  }
+  
+  .specs-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .games-filter {
+    flex-direction: column;
+  }
+  
+  .personal-form-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .birth-date-row {
+    flex-direction: column;
+  }
+  
+  .place-details {
+    flex-direction: column;
+    text-align: center;
+  }
+  
+  .place-specs {
+    grid-template-columns: 1fr;
+  }
+  
+  .booking-summary {
+    flex-direction: column;
+    gap: 12px;
+  }
+}
+
+@media (max-width: 480px) {
+  .games-grid {
+    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+  }
+  
+  .step-indicators {
+    justify-content: center;
+    gap: 8px;
+  }
+  
+  .step-indicator {
+    width: 24px;
+    height: 24px;
+    font-size: 12px;
+  }
+}

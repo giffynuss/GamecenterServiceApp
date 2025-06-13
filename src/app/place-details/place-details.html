@@ -1,1 +1,475 @@
-<p>place-details works!</p>
+<div class="booking-container">
+  <mat-card class="main-card">
+    
+    <!-- Header -->
+    <mat-card-header class="booking-header">
+      <mat-card-title>
+        <mat-icon>gamepad</mat-icon>
+        Gaming Platz {{ place?.id }} buchen
+      </mat-card-title>
+      <mat-card-subtitle>{{ getCurrentStepTitle() }} ({{ currentStep + 1 }}/{{ maxSteps }})</mat-card-subtitle>
+    </mat-card-header>
+
+    <!-- Progress Indicator -->
+    <div class="progress-container">
+      <div class="progress-bar">
+        <div class="progress-fill" [style.width.%]="((currentStep + 1) / maxSteps) * 100"></div>
+      </div>
+      <div class="step-indicators">
+        <div *ngFor="let step of [0,1,2,3,4]; let i = index" 
+             class="step-indicator" 
+             [class.active]="i <= currentStep"
+             [class.current]="i === currentStep">
+          {{ i + 1 }}
+        </div>
+      </div>
+    </div>
+
+    <mat-card-content>
+      
+      <!-- Phase 1: Platz-Details & Zeit -->
+      <div *ngIf="currentStep === 0" class="step-content">
+        <h2>Platz-Details bestätigen</h2>
+        
+        <mat-card class="place-info-card">
+          <mat-card-content>
+            <div class="place-details">
+              <div class="place-icon">🎮</div>
+              <div class="place-info">
+                <h3>Gaming Platz {{ place?.id }}</h3>
+                <div class="place-specs">
+                  <div class="spec-item">
+                    <mat-icon>euro</mat-icon>
+                    <span>{{ place?.price || 5 }}€ pro Stunde</span>
+                  </div>
+                  <div class="spec-item">
+                    <mat-icon>speed</mat-icon>
+                    <span>Durchschnittlich 144 FPS in beliebten Spielen</span>
+                  </div>
+                  <div class="spec-item">
+                    <mat-icon>computer</mat-icon>
+                    <span>High-End Gaming PC</span>
+                  </div>
+                  <div class="spec-item">
+                    <mat-icon>headset</mat-icon>
+                    <span>Premium Gaming-Headset inkludiert</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </mat-card-content>
+        </mat-card>
+
+        <form [formGroup]="bookingForm" (ngSubmit)="onBookingFormChange()">
+          <h3>Buchungszeit auswählen</h3>
+          <div class="time-selection">
+            <mat-form-field appearance="outline">
+              <mat-label>Datum</mat-label>
+              <input matInput [matDatepicker]="picker" formControlName="date">
+              <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+              <mat-datepicker #picker></mat-datepicker>
+            </mat-form-field>
+
+            <mat-form-field appearance="outline">
+              <mat-label>Von</mat-label>
+              <mat-select formControlName="startTime" (selectionChange)="onBookingFormChange()">
+                <mat-option *ngFor="let time of timeSlots" [value]="time">
+                  {{ time }} Uhr
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+
+            <mat-form-field appearance="outline">
+              <mat-label>Bis</mat-label>
+              <mat-select formControlName="endTime" (selectionChange)="onBookingFormChange()">
+                <mat-option *ngFor="let time of timeSlots" [value]="time">
+                  {{ time }} Uhr
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+
+          <div class="booking-summary" *ngIf="bookingDetails.duration > 0">
+            <div class="duration-info">
+              <mat-icon>schedule</mat-icon>
+              <span>Dauer: {{ bookingDetails.duration }} Stunde(n)</span>
+            </div>
+            <div class="price-info">
+              <mat-icon>euro</mat-icon>
+              <span>Gesamtpreis: {{ bookingDetails.totalPrice }}€</span>
+            </div>
+          </div>
+        </form>
+      </div>
+
+      <!-- Phase 2: PC-Specs -->
+      <div *ngIf="currentStep === 1" class="step-content">
+        <h2>PC-Ausstattung wählen</h2>
+        
+        <form [formGroup]="specsForm" (ngSubmit)="onSpecsChange()">
+          <div class="specs-grid">
+            
+            <mat-form-field appearance="outline">
+              <mat-label>Prozessor</mat-label>
+              <mat-select formControlName="processor" (selectionChange)="onSpecsChange()">
+                <mat-option *ngFor="let cpu of availableSpecs.processors" [value]="cpu">
+                  {{ cpu }}
+                </mat-option>
+              </mat-select>
+              <mat-icon matPrefix>memory</mat-icon>
+            </mat-form-field>
+
+            <mat-form-field appearance="outline">
+              <mat-label>Grafikkarte</mat-label>
+              <mat-select formControlName="graphicsCard" (selectionChange)="onSpecsChange()">
+                <mat-option *ngFor="let gpu of availableSpecs.graphicsCards" [value]="gpu">
+                  {{ gpu }}
+                </mat-option>
+              </mat-select>
+              <mat-icon matPrefix>videogame_asset</mat-icon>
+            </mat-form-field>
+
+            <div class="ram-slider">
+              <label>Arbeitsspeicher (RAM): {{ selectedSpecs.ram }} GB</label>
+              <mat-slider 
+                min="8" 
+                max="64" 
+                step="8" 
+                discrete
+                [displayWith]="formatRAMLabel">
+                <input matSliderThumb formControlName="ram" (input)="onSpecsChange()">
+              </mat-slider>
+            </div>
+
+            <mat-form-field appearance="outline">
+              <mat-label>Speicher</mat-label>
+              <mat-select formControlName="storage" (selectionChange)="onSpecsChange()">
+                <mat-option *ngFor="let storage of availableSpecs.storageOptions" [value]="storage">
+                  {{ storage }}
+                </mat-option>
+              </mat-select>
+              <mat-icon matPrefix>storage</mat-icon>
+            </mat-form-field>
+
+            <mat-form-field appearance="outline">
+              <mat-label>Monitor</mat-label>
+              <mat-select formControlName="monitor" (selectionChange)="onSpecsChange()">
+                <mat-option *ngFor="let monitor of availableSpecs.monitors" [value]="monitor">
+                  {{ monitor }}
+                </mat-option>
+              </mat-select>
+              <mat-icon matPrefix>monitor</mat-icon>
+            </mat-form-field>
+
+          </div>
+        </form>
+      </div>
+
+      <!-- Phase 3: Spiele-Auswahl -->
+      <div *ngIf="currentStep === 2" class="step-content">
+        <h2>Spiele auswählen</h2>
+        
+        <div class="games-filter">
+          <mat-form-field appearance="outline" class="search-field">
+            <mat-label>Spiele suchen</mat-label>
+            <input matInput [(ngModel)]="gameSearchFilter" placeholder="Spielname eingeben...">
+            <mat-icon matSuffix>search</mat-icon>
+          </mat-form-field>
+
+          <mat-form-field appearance="outline" class="category-field">
+            <mat-label>Kategorie</mat-label>
+            <mat-select [(ngModel)]="selectedCategory">
+              <mat-option *ngFor="let category of gameCategories" [value]="category.value">
+                {{ category.label }}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+
+        <div class="selected-games" *ngIf="selectedGames.length > 0">
+          <h3>Ausgewählte Spiele ({{ selectedGames.length }})</h3>
+          <div class="selected-games-chips">
+            <mat-chip-set>
+              <mat-chip *ngFor="let game of selectedGames" 
+                       (removed)="toggleGameSelection(game)"
+                       removable>
+                <span>{{ game.image }} {{ game.name }}</span>
+                <mat-icon matChipRemove>cancel</mat-icon>
+              </mat-chip>
+            </mat-chip-set>
+          </div>
+        </div>
+
+        <div class="games-grid">
+          <mat-card *ngFor="let game of getFilteredGames()" 
+                   class="game-card"
+                   [class.selected]="isGameSelected(game)"
+                   (click)="toggleGameSelection(game)">
+            <mat-card-content>
+              <div class="game-icon">{{ game.image }}</div>
+              <div class="game-name">{{ game.name }}</div>
+              <div class="game-category">{{ getCategoryLabel(game.category) }}</div>
+              <mat-icon *ngIf="isGameSelected(game)" class="selected-icon">check_circle</mat-icon>
+            </mat-card-content>
+          </mat-card>
+        </div>
+      </div>
+
+      <!-- Phase 4: Persönliche Daten -->
+      <div *ngIf="currentStep === 3" class="step-content">
+        <h2>Persönliche Daten</h2>
+        
+        <form [formGroup]="personalForm" (ngSubmit)="onPersonalFormChange()">
+          <div class="personal-form-grid">
+            
+            <mat-form-field appearance="outline">
+              <mat-label>Vorname</mat-label>
+              <input matInput formControlName="firstName" (input)="onPersonalFormChange()">
+              <mat-icon matPrefix>person</mat-icon>
+            </mat-form-field>
+
+            <mat-form-field appearance="outline">
+              <mat-label>Nachname</mat-label>
+              <input matInput formControlName="lastName" (input)="onPersonalFormChange()">
+            </mat-form-field>
+
+            <mat-form-field appearance="outline">
+              <mat-label>Benutzername</mat-label>
+              <input matInput formControlName="username" (input)="onPersonalFormChange()">
+              <mat-icon matPrefix>account_circle</mat-icon>
+            </mat-form-field>
+
+            <mat-form-field appearance="outline">
+              <mat-label>E-Mail</mat-label>
+              <input matInput type="email" formControlName="email" (input)="onPersonalFormChange()">
+              <mat-icon matPrefix>email</mat-icon>
+            </mat-form-field>
+
+            <div class="birth-date-row">
+              <mat-form-field appearance="outline">
+                <mat-label>Geburtsmonat</mat-label>
+                <mat-select formControlName="birthMonth" (selectionChange)="onPersonalFormChange()">
+                  <mat-option *ngFor="let month of [1,2,3,4,5,6,7,8,9,10,11,12]; let i = index" [value]="month">
+                    {{ ['Januar', 'Februar', 'März', 'April', 'Mai', 'Juni', 'Juli', 'August', 'September', 'Oktober', 'November', 'Dezember'][i] }}
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
+
+              <mat-form-field appearance="outline">
+                <mat-label>Geburtsjahr</mat-label>
+                <mat-select formControlName="birthYear" (selectionChange)="onPersonalFormChange()">
+                  <mat-option *ngFor="let year of [2005,2004,2003,2002,2001,2000,1999,1998,1997,1996,1995,1994,1993,1992,1991,1990]" [value]="year">
+                    {{ year }}
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
+            </div>
+
+            <mat-form-field appearance="outline">
+              <mat-label>Sprache</mat-label>
+              <mat-select formControlName="language" (selectionChange)="onPersonalFormChange()">
+                <mat-option *ngFor="let lang of languages" [value]="lang.value">
+                  {{ lang.label }}
+                </mat-option>
+              </mat-select>
+              <mat-icon matPrefix>language</mat-icon>
+            </mat-form-field>
+
+          </div>
+
+          <mat-divider></mat-divider>
+
+          <h3>Zahlungsmethode</h3>
+          <mat-radio-group formControlName="paymentMethod" (change)="onPersonalFormChange()">
+            <mat-radio-button *ngFor="let method of paymentMethods" [value]="method.value">
+              <span [ngSwitch]="method.value">
+                <mat-icon *ngSwitchCase="'credit'">credit_card</mat-icon>
+                <mat-icon *ngSwitchCase="'paypal'">payment</mat-icon>
+                <mat-icon *ngSwitchCase="'cash'">euro</mat-icon>
+              </span>
+              {{ method.label }}
+            </mat-radio-button>
+          </mat-radio-group>
+
+        </form>
+      </div>
+
+      <!-- Phase 5: Zusammenfassung -->
+      <div *ngIf="currentStep === 4" class="step-content">
+        <h2>Buchung bestätigen</h2>
+        
+        <div class="summary-sections">
+          
+          <!-- Platz & Zeit -->
+          <mat-card class="summary-card">
+            <mat-card-header>
+              <mat-card-title>
+                <mat-icon>schedule</mat-icon>
+                Buchungsdetails
+              </mat-card-title>
+            </mat-card-header>
+            <mat-card-content>
+              <div class="summary-item">
+                <strong>Platz:</strong> Gaming Platz {{ place?.id }}
+              </div>
+              <div class="summary-item">
+                <strong>Datum:</strong> {{ bookingDetails.date | date:'dd.MM.yyyy' }}
+              </div>
+              <div class="summary-item">
+                <strong>Zeit:</strong> {{ bookingDetails.startTime }} - {{ bookingDetails.endTime }} Uhr
+              </div>
+              <div class="summary-item">
+                <strong>Dauer:</strong> {{ bookingDetails.duration }} Stunde(n)
+              </div>
+            </mat-card-content>
+          </mat-card>
+
+          <!-- PC-Specs -->
+          <mat-card class="summary-card">
+            <mat-card-header>
+              <mat-card-title>
+                <mat-icon>computer</mat-icon>
+                PC-Ausstattung
+              </mat-card-title>
+            </mat-card-header>
+            <mat-card-content>
+              <div class="summary-item">
+                <strong>Prozessor:</strong> {{ selectedSpecs.processor }}
+              </div>
+              <div class="summary-item">
+                <strong>Grafikkarte:</strong> {{ selectedSpecs.graphicsCard }}
+              </div>
+              <div class="summary-item">
+                <strong>RAM:</strong> {{ selectedSpecs.ram }} GB
+              </div>
+              <div class="summary-item">
+                <strong>Speicher:</strong> {{ selectedSpecs.storage }}
+              </div>
+              <div class="summary-item">
+                <strong>Monitor:</strong> {{ selectedSpecs.monitor }}
+              </div>
+            </mat-card-content>
+          </mat-card>
+
+          <!-- Spiele -->
+          <mat-card class="summary-card" *ngIf="selectedGames.length > 0">
+            <mat-card-header>
+              <mat-card-title>
+                <mat-icon>games</mat-icon>
+                Ausgewählte Spiele ({{ selectedGames.length }})
+              </mat-card-title>
+            </mat-card-header>
+            <mat-card-content>
+              <div class="games-summary">
+                <mat-chip-set>
+                  <mat-chip *ngFor="let game of selectedGames" disabled>
+                    {{ game.image }} {{ game.name }}
+                  </mat-chip>
+                </mat-chip-set>
+              </div>
+            </mat-card-content>
+          </mat-card>
+
+          <!-- Persönliche Daten -->
+          <mat-card class="summary-card">
+            <mat-card-header>
+              <mat-card-title>
+                <mat-icon>person</mat-icon>
+                Persönliche Daten
+              </mat-card-title>
+            </mat-card-header>
+            <mat-card-content>
+              <div class="summary-item">
+                <strong>Name:</strong> {{ personalInfo.firstName }} {{ personalInfo.lastName }}
+              </div>
+              <div class="summary-item">
+                <strong>Benutzername:</strong> {{ personalInfo.username }}
+              </div>
+              <div class="summary-item">
+                <strong>E-Mail:</strong> {{ personalInfo.email }}
+              </div>
+              <div class="summary-item">
+                <strong>Zahlungsmethode:</strong> {{ getPaymentMethodLabel(personalInfo.paymentMethod) }}
+              </div>
+            </mat-card-content>
+          </mat-card>
+
+          <!-- Rechnung -->
+          <mat-card class="summary-card billing-card">
+            <mat-card-header>
+              <mat-card-title>
+                <mat-icon>receipt</mat-icon>
+                Rechnung
+              </mat-card-title>
+            </mat-card-header>
+            <mat-card-content>
+              <div class="billing-item">
+                <span>{{ bookingDetails.duration }} Stunde(n) à {{ place?.price || 5 }}€</span>
+                <span>{{ (place?.price || 5) * bookingDetails.duration }}€</span>
+              </div>
+              
+              <form [formGroup]="summaryForm">
+                <div class="discount-section">
+                  <mat-form-field appearance="outline">
+                    <mat-label>Rabattcode</mat-label>
+                    <input matInput formControlName="discountCode">
+                    <button mat-icon-button matSuffix (click)="applyDiscountCode()" type="button">
+                      <mat-icon>local_offer</mat-icon>
+                    </button>
+                  </mat-form-field>
+                </div>
+              </form>
+
+              <mat-divider></mat-divider>
+              
+              <div class="total-price">
+                <span><strong>Gesamtpreis:</strong></span>
+                <span><strong>{{ bookingDetails.totalPrice }}€</strong></span>
+              </div>
+            </mat-card-content>
+          </mat-card>
+
+        </div>
+
+        <form [formGroup]="summaryForm">
+          <mat-checkbox formControlName="agreeToTerms">
+            Ich stimme den <a href="#" target="_blank">Allgemeinen Geschäftsbedingungen</a> zu
+          </mat-checkbox>
+        </form>
+
+      </div>
+
+    </mat-card-content>
+
+    <!-- Navigation Buttons -->
+    <mat-card-actions class="navigation-buttons">
+      <button mat-button 
+              (click)="previousStep()" 
+              [disabled]="currentStep === 0">
+        <mat-icon>arrow_back</mat-icon>
+        Zurück
+      </button>
+      
+      <div class="spacer"></div>
+      
+      <button mat-raised-button 
+              color="primary"
+              *ngIf="currentStep < maxSteps - 1"
+              (click)="nextStep()" 
+              [disabled]="!isCurrentStepValid()">
+        Weiter
+        <mat-icon>arrow_forward</mat-icon>
+      </button>
+
+      <button mat-raised-button 
+              color="accent"
+              *ngIf="currentStep === maxSteps - 1"
+              (click)="confirmBooking()" 
+              [disabled]="!isCurrentStepValid()">
+        <mat-icon>check</mat-icon>
+        Jetzt buchen
+      </button>
+    </mat-card-actions>
+
+  </mat-card>
+</div>
